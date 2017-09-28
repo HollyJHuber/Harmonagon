@@ -1,0 +1,491 @@
+     
+    body{
+        background-color: rgb(0, 0, 0);
+        color: white;
+        font-size: 16px;
+        font-family: "Segoe UI",Arial,sans-serif;
+        max-width: 100% !important;
+        overflow-x: hidden;  /*to disable the horizontal scroll bar*/
+     }
+    ol li, p, ul li{
+         font-size: .875em;
+    }
+
+    h2{
+        font-size: 1.5em;
+    }
+
+    h3, div{
+        font-size: 1em;
+    }
+    address{
+        font-style: normal;
+        font-size: .875em;
+    }
+    canvas{
+      border: 0px solid; 
+      max-width: 100% !important;
+    }
+
+   footer{
+        background-color: rgb(64, 64, 64);
+        height: 38px;
+        font-size: 0.75em;     
+        text-align: center!important;
+        padding-top: 10px;
+    }
+
+  #bigNav{
+        background-color: rgb(64, 64, 64);
+        height: 38px;
+    }
+   #smallNav{
+        background-color: rgb(64, 64, 64);
+    }
+
+    #navBarIcon{
+        padding-left: 10px;
+        padding-right: 10px;
+        height: 38px;
+    }
+
+    .menu-listings{
+        padding: 3px 8px 2px 50px;
+    }
+
+    #vexflow{
+        background-color: rgb(248, 221, 188);
+        color: black;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px; 
+        max-width: 100% !important;
+        overflow-x: hidden;  /*to disable the horizontal scroll bar*/
+    }
+
+    #slideCaption{
+        color: white;
+        font-size: 0.875em; 
+        background-color: rgb(64, 64, 64);
+        min-height: 44px;
+        padding: 16px 24px 15px 36px;
+    }
+    .slideShow{
+        display: none;
+        width: 100%;
+    }
+    .w3-accordion-content a {
+        padding: 3px 0px;
+    }
+
+    .menu-grey{
+        background-color: rgba(242, 242, 242, 0.90);
+    }
+    .navbar-grey{
+        background-color: rgb(64, 64, 64);
+    }
+
+    .h-icons{
+        padding-top: 4px;
+        padding-right: 8px;
+    }
+    .h-icon-right{
+        padding-top: 4px;
+        padding-right: 20px;
+    }
+
+    .h-video{
+        position: relative;
+        padding-top: 50px;
+        padding-bottom: 56.25%;
+        height:0;
+        overflow: hidden;
+    }
+
+    .h-video iframe{
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+    }
+    .h-container-left{
+        padding: 36px 18px 24px 36px;
+    }
+    .h-container-right{
+        padding: 36px 36px 24px 18px;
+    }
+    .h-container{
+        padding: 36px 24px 18px 36px;
+    }
+
+    .disabled{
+        color: rgb(128,128,128);
+        cursor: default;
+        pointer-events: none;
+    }
+
+/* generated html/svg for vexflow */
+    .names {
+        font-size: 1.5em;
+        font-weight: bold;
+        padding-left: 50px;
+        position: absolute;
+        max-width: 100% !important;
+        overflow-x: hidden;  /*to disable the horizontal scroll bar*/
+    }
+    .notations {
+        margin-top: 20px;
+        padding-left: 50px;
+        position: relative;
+        max-width: 100% !important;
+        overflow-x: hidden;  /*to disable the horizontal scroll bar*/
+    }
+    .descriptions {
+        font-size: 1em;
+        padding-left: 50px;
+        padding-bottom: 40px;
+        max-width: 100% !important;
+        overflow-x: hidden;  /*to disable the horizontal scroll bar*/
+    }
+
+
+/*  use by Discover menu modal to hide content  */
+    .discover{
+        display: none;
+    }
+    .h-discover-header{
+        padding-bottom: 6px;
+    }
+    .tablink{
+        font-size: 1em;
+    }
+
+    #videoContent{
+        display: none:
+    }
+
+    .h-indent{
+        padding-left: 20px;
+    }
+
+    .h-hover-red:hover, .h-hover-red:active, .h-hover-red:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(204,0,0) !important
+    }
+    .h-hover-yellow:hover, .h-hover-yellow:active, .h-hover-yellow:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(255,204,0) !important
+    }
+    .h-hover-green:hover, .h-hover-green:active, .h-hover-green:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(0,153,0) !important
+    }
+    .h-hover-orange:hover, .h-hover-orange:active, .h-hover-orange:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(255,128,0) !important
+    }
+    .h-hover-blue:hover, .h-hover-blue:active, .h-hover-blue:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(51,153,255) !important
+    }
+   .h-hover-purple:hover, .h-hover-purple:active, .h-hover-purple:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(170,0,255) !important
+    }  
+
+   .h-hover-magenta:hover, .h-hover-magenta:active, .h-hover-magenta:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(230,0,230) !important
+    }  
+
+  .h-hover-grey:hover, .h-hover-grey:active, .h-hover-grey:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(217,217,217) !important
+    }  
+  .h-hover-black:hover, .h-hover-black:active, .h-hover-black:focus{
+        color: rgb(0,0,0) !important;
+        background-color: rgb(0,0,0) !important
+    }  
+
+
+/*   quiz   */ 
+    #quiz{
+        font-family: sans-serif;
+        margin-left: 100px;
+        margin-right: 100px;
+        display: none;
+    }
+
+   #quizTitle{
+        text-align: center;
+        margin-top: 20px;
+    }
+    #quizAnswer{
+        text-align: center;
+    }
+
+    #quizQuestion{
+        padding-bottom: 20px;
+    }
+
+    .quizDisabled {
+        opacity: .5;
+        /*color: rgb(191,191,191); */
+        pointer-events: none;
+    }
+/*radio button options*/
+   label{
+       line-height: 2em;
+       font-size: 1.2em;
+    }
+
+    label input{
+        font-size: 2em;
+        margin-left: 20px;
+        margin-right: 10px;
+    }
+
+    #quizClick, #videoClick{
+        background-color: rgb(0,0,0);
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1.5em;
+        width: 180px;
+        float:left;
+    }
+
+    #quizExit, #videoExit{
+        background-color: rgb(204,0,0);
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1.5em;
+        width: 120px;
+        float: right;
+        margin-right: 15px;
+    }
+
+    #videoClick{
+        width: 250px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 15px;
+    }
+    #videoExit{
+        background-color: rgb(0,0,0);
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    #playVideo{
+        background-color: rgb(64, 64, 64);
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .quizCorrect span {
+        color: rgb(0,153,0);
+        font-weight: bold;
+    }
+    .quizWrong span {
+        color: rgb(204,0,0);
+        font-weight: bold;
+    }
+
+    hr { 
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        margin-left: auto;
+        margin-right: 10px;
+        border-style: inset;
+        border-width: 1px;
+    }
+
+    #quizButtons{
+        text-align: center;
+    }
+    #quizCount{
+        align-content: center;
+        font-size: .8em;
+        line-height: 4em;
+        vertical-align: text-bottom;
+    }
+
+/*  increase fonts for really big */
+@media only screen and (min-width:2000px){
+    
+    .names {
+        font-size: 1.75em;
+    }
+   .descriptions {
+        font-size: 1.25em;
+    }
+    #quiz{
+        margin-left: 150px;
+        margin-right: 150px;
+    }
+/*     #quizClick{
+        font-size: 1.5em;
+        width: 180px;
+    }
+
+    #quizExit{
+        font-size: 1.5em;
+        width: 120px;
+    }*/
+    
+}
+
+/*  getting smaller but not breaking to 1 col */
+@media only screen and (max-width:1500px){
+    
+    #quiz{
+        margin-left: 45px;
+        margin-right: 45px;
+    }
+     #quizTitle{
+       font-size: 2em;
+    }
+    
+   label{
+       line-height: 1.5em;
+       font-size: 1em;
+    }
+    
+}
+/*  medium (and small) breakpoint */
+@media only screen and (max-width:960px){
+    
+    body{
+        font-size: 14px;
+    }
+    .w3-half {
+        float:left;
+        width:100%
+    }
+/*    add a charcoal bar between when stacking videos */
+    .h-container-left{
+        padding: 0px 0px 38px 0px !important;
+        background-color: rgb(64, 64, 64);
+        width: 100%;
+    }
+    /*  modify alignment for video containers */
+    .h-container-right{
+        width: 100%;
+        padding: 0px 0px 20px 0px !important;
+    }
+    .notations {
+        padding-left: 25px;
+    }
+    .names {
+        padding-left: 25px;
+    }
+    .descriptions {
+        padding-left: 25px;
+    }
+   .tablink{
+        font-size: .875em;
+    }
+   .w3-accordion-content a {
+       font-size: .875em;
+       padding: 3px 0px;
+    }
+/*    .w3-quarter{
+        width: 49.999%;
+    }*/
+    #quiz{
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+        #quizExit{
+        font-size: 1.25em;
+        padding: 15px 15px;
+        width: 90px;
+    }
+    
+    #quizClick{
+        font-size: 1.25em;
+        padding: 15px 15px;
+        width: 150px;
+    }
+}
+/*  learn menu breakpoint */
+@media only screen and (max-width:700px){
+    .w3-quarter{
+        width: 100%;
+    }
+}
+
+/*  small breakpoint */
+@media only screen and (max-width:600px){
+   body{
+        font-size: 12px;
+    }
+   .tablink{
+        font-size: .75em;
+    }
+   .w3-accordion-content a {
+       font-size: 1em;
+       padding: 4px 0px;
+
+    }
+    .w3-quarter{
+        width: 100%;
+    }
+    .w3-quarter a{
+        padding: 2px 0px;
+    }
+
+    footer{
+        font-size: 0.575em; 
+    }
+
+    #h-menuIcon{
+        padding: 4px 20px 4px 20px !important;
+    }
+    #navBarIconSmall{
+       float: left;
+        width: auto !important;
+    }
+    #h-navHeading{
+        font-size: 1.25em;
+         padding-top: 8px !important;
+    }
+    #quiz{
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+
+/*  tiny breakpoint */
+@media only screen and (max-width:400px){
+    #quizExit{
+        font-size: 1.25em;
+        padding: 15px 15px;
+        width: 60px;
+    }
+    
+    #quizClick{
+        font-size: 1.25em;
+        padding: 15px 15px;
+        width: 90px;
+    }
+    .menu-listings{
+        padding: 3px 8px 3px 15px;
+    }
+
+}

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Harmonagon&trade;</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- styles --> <!--  order is important, last style sheet read in will take precedence  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/hp.css">
+    <!-- polyfill -->
+    <script src="./inc/shim/Base64.js" type="text/javascript"></script>
+    <script src="./inc/shim/Base64binary.js" type="text/javascript"></script>
+    <script src="./inc/shim/WebAudioAPI.js" type="text/javascript"></script>
+    <!-- midi.js package -->
+    <script src="./js/midi/audioDetect.js" type="text/javascript"></script>
+    <script src="./js/midi/gm.js" type="text/javascript"></script>
+    <script src="./js/midi/loader.js" type="text/javascript"></script>
+    <script src="./js/midi/plugin.audiotag.js" type="text/javascript"></script>
+    <script src="./js/midi/plugin.webaudio.js" type="text/javascript"></script>
+    <script src="./js/midi/plugin.webmidi.js" type="text/javascript"></script>
+    <!-- utils -->
+    <script src="./js/util/dom_request_xhr.js" type="text/javascript"></script>
+    <script src="./js/util/dom_request_script.js" type="text/javascript"></script>
+    <!-- vexflow -->
+    <script src ="./js/vexflow-debug.js"></script>
+</head>
+    
+<body>
+    
+<!--dropnav toggle and collapse-->
+    <!-- desktop navbar -->
+    <nav>
+    <div> 
+        <ul id="bigNav" class="w3-navbar w3-left-align w3-text-white">
+                   <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
+                <a href="#" onclick="w3_displayNav('smallNav')" id="h-menuIcon"><i class="fa fa-bars fa-2x"></i></a>
+             </li>
+
+             <li id="navBarIconSmall"><a href="#" onclick="reload()" class="h-hover-black w3-padding-0"><img src="./images/NavBarIconSVG.svg" id="navBarIcon"></a></li>
+           
+        <li id="h-navHeading" class="w3-hide-medium w3-hide-large w3-center">Harmonagon<super>&trade;</super></li>
+   
+             <li class="w3-hide-small w3-dropdown-click">
+                 <a href="#"  onclick="w3_displayNav('CreateMenu')" class="h-hover-red">Create</a>
+                <div id="CreateMenu" class="w3-dropdown-content menu-grey w3-card-4">
+                     <a id="MAKE CHORD" onclick="doMenu('MakeChord')" href="#">Make Chord...</a>
+                     <a id="MAKE SCALE" onclick="doMenu('MakeScale')" href="#">Make Scale...</a>
+                     <a id="ENTER"  onclick="doMenu('Enter')" href="#" class="disabled">Enter</a>
+                     <a id="CLEAR" onclick="doMenu('Clear')" href="#" class="disabled" >Clear</a>
+                     <a id="ADD CHORD" onclick="doMenu('AddChord')" class="disabled" href="#" >Add Chord...</a>
+                     <a id="MERGE" onclick="doMenu('MergeChords')" class="disabled" href="#" >Merge Chords</a>
+                </div>
+            </li>
+             <li class="w3-hide-small w3-dropdown-click">
+                 <a href="#"  onclick="w3_displayNav('PlayMenu')" class="h-hover-orange">Play</a>
+                 <div id="PlayMenu" class="w3-dropdown-content menu-grey w3-card-4">
+                      <a  id="PLAY" onclick="doMenu('Play')" href="#" class="disabled">Play</a>
+                      <a  id="LOOP" onclick="doMenu('Loop')" href="#" class="disabled" >Loop</a>
+                      <a  id="LOOP CHORDS" onclick="doMenu('LoopChords')" href="#" class="disabled" >Loop Chords</a>
+                      <a  id="SWAP CHORDS" onclick="doMenu('SwapChords')" href="#" class="disabled" >Swap Chords</a>
+                      <a  id="STOP LOOP" onclick="doMenu('StopLoop')" href="#"class="disabled" >Stop Loop</a>
+                </div>
+            </li>
+             <li class="w3-hide-small w3-dropdown-click">
+                 <a href="#" onclick="w3_displayNav('LearnMenu')" class="h-hover-yellow">Learn</a>
+            </li>
+            <li class="w3-hide-small w3-dropdown-click">
+                 <a href="#" onclick="w3_displayNav('ExploreMenu')" class="h-hover-green">Explore</a>
+            </li>
+             <li class="w3-hide-small w3-dropdown-click">
+                 <a href="#"  onclick="w3_displayNav('ChangeMenu')" class="h-hover-blue">Change</a>
+                 <div id="ChangeMenu" class="w3-dropdown-content menu-grey w3-card-4">
+                         <a href="#">Tempo</a>
+                        <div id="TEMPO">
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 30)" >&nbsp; &nbsp; 30 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 60)" >&nbsp; &nbsp; 60 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 90)" >&nbsp; &nbsp; 90 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 100)" >&nbsp; &nbsp; 100 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 120)" ><i class="fa fa-check"></i>120 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 140)" >&nbsp; &nbsp; 140 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 160)" >&nbsp; &nbsp; 160 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 180)" >&nbsp; &nbsp; 180 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 200)" >&nbsp; &nbsp; 200 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 220)" >&nbsp; &nbsp; 220 bpm</a>
+                             <a href="#" class="bpm" onclick="doMenu('Tempo', 240)" >&nbsp; &nbsp; 240 bpm</a>
+                         </div>
+                </div>
+             </li>
+         
+             <li class="w3-hide-small w3-dropdown-click">
+                 <a href="#"  onclick="w3_displayNav('DiscoverMenu')" class="h-hover-magenta">Discover</a>
+               <!--    update Discover menu changes in smallNav too  -->
+                <div id="DiscoverMenu" class="w3-dropdown-content menu-grey w3-card-4">
+                 <a id="QUICK START" href="#" onclick="doMenu('Info', 'Quick')">Quick Start Guide...</a> 
+                 <a id="FAQ" href="#" onclick="doMenu('Info', 'Faq')">FAQ...</a>
+                  <a id="ABOUT" href="#" onclick="doMenu('Info', 'About')">About...</a>
+                 <a id="AGREEMENT" href="#" onclick="doMenu('Info', 'Agreement')">End User License Agreement...</a>
+                </div>
+            </li>
+             <!-- <li class="w3-hide-small w3-dropdown-click">
+                 <a href="#" onclick="w3_displayNav('DonateMenu')" class="h-hover-purple">Donate</a>
+                  <div id="DonateMenu" class="w3-dropdown-content menu-grey w3-card-4">
+                      <a href="https://www.kickstarter.com/projects/477826022/the-harmonagon" target="_blank">Kickstarter Campaign</a>
+                      <a href="http://5x5night.com/ideas/detail/the-harmonagon" target="_blank">Vote 5x5night</a>
+                  </div>
+            </li>-->
+        
+             <li class="w3-hide-small">
+                 <a id="RELOAD" href="#" class="h-hover-purple" onclick="reload()">Reload</a>
+            </li>
+               <div class="w3-right">
+                <a href="https://www.facebook.com/harmonagon/" target="_blank"><i class="fa fa-facebook-square fa-2x h-icons w3-hide-small"></i></a>
+                <a href="https://www.youtube.com/channel/UC_f3nR0uGJ1VuBx9SgFG3zQ" target="_blank" ><i class="fa fa-youtube-square fa-2x h-icons w3-hide-small"></i></a>
+                <a href="https://twitter.com/harmonagon" target="_blank" ><i class="fa fa-twitter-square fa-2x h-icons w3-hide-small"></i></a>
+                <a href="mailto:info@harmonagon.org"><i class="fa fa-envelope-square fa-2x h-icon-right w3-hide-small"></i></a>
+            </div>
+        </ul>            
+    </div>
+     <!--   mobile navbar -->
+    <div id="smallNav" class="w3-hide w3-hide-large w3-hide-medium w3-text-white">
+         <ul class="w3-navbar w3-left-align w3-text-white">
+            <li><a href="#" onclick="w3_displayNav('LearnMenu')" class="h-hover-yellow">Learn</a></li>
+            <li><a href="#" onclick="w3_displayNav('ExploreMenu')" class="h-hover-green">Explore</a></li>
+            
+            <li><a href="#" onclick="w3_displayNav('ChangeMenuSm')" class="h-hover-blue">Change</a>
+                <div id="ChangeMenuSm" class="w3-dropdown-content menu-grey w3-card-4">
+                             <a href="#">Tempo</a>
+                            <div>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 30)" >&nbsp; &nbsp; 30 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 60)" >&nbsp; &nbsp; 60 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 90)" >&nbsp; &nbsp; 90 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 100)" >&nbsp; &nbsp; 100 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 120)" ><i class="fa fa-check"></i>120 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 140)" >&nbsp; &nbsp; 140 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 160)" >&nbsp; &nbsp; 160 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 180)" >&nbsp; &nbsp; 180 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 200)" >&nbsp; &nbsp; 200 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 220)" >&nbsp; &nbsp; 220 bpm</a>
+                                 <a href="#" class="bpm" onclick="doMenu('Tempo', 240)" >&nbsp; &nbsp; 240 bpm</a>
+                             </div>
+                    </div> 
+            </li>
+             
+             <li><a href="#" onclick="w3_displayNav('DiscoverMenuSm')" class="h-hover-magenta">Discover</a>
+                <div id="DiscoverMenuSm" class="w3-dropdown-content menu-grey w3-card-4">
+                 <a href="#" onclick="doMenu('Info', 'Quick')">Quick Start Guide...</a> 
+                 <a href="#" conclick="doMenu('Info', 'Faq')">FAQ...</a>
+                  <a href="#" onclick="doMenu('Info', 'About')">About...</a>
+                 <a href="#" onclick="doMenu('Info', 'Agreement')">End User License Agreement...</a>
+                </div>
+             </li>
+             <!--<li><a href="#"  onclick="w3_displayNav('DonateMenuSm')" class="h-hover-purple">Donate</a>
+                  <div id="DonateMenuSm" class="w3-dropdown-content menu-grey w3-card-4">
+                      <a href="https://www.kickstarter.com/projects/477826022/the-harmonagon" target="_blank">Kickstarter Campaign</a>
+                      <a href="http://5x5night.com/ideas/detail/the-harmonagon" target="_blank">Vote 5x5night</a>
+                  </div>
+            </li>-->
+             <li><a href="#"  class="h-hover-purple" onclick="reload()">Reload</a>
+            </li>
+             
+        </ul>
+    </div>
+    </nav> 
+    
+<!-- dropnav toggle -->
+    <nav id="LearnMenu" class="w3-dropnav w3-card-2 menu-grey w3-text-black" style="display:none" >
+    <div class="w3-container">
+        <span onclick="w3_close('LearnMenu')" class="w3-closebtn x3-xlarge" title="Close Menu"> &times;</span>
+    </div>
+    <div class="menu-listings">
+            <h2>Lessons </h2>
+ 
+           <a href="#" onclick="playVideo(1000)"><b>Intro to the Harmonagon</b></a>   
+           <a href="#" onclick="w3_displayNav('v1001')"><b>Using the Harmonagon </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1001" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1001)">Video</a>
+                            <a href="#" onclick="startQuiz(1001)">Quiz</a>
+                       </div>
+                   </div>
+            <a href="#" onclick="w3_displayNav('v1002')"><b>Notes and Steps </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1002" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1002)">Video</a>
+                            <a href="#" onclick="startQuiz(1002)">Quiz</a>
+                       </div>
+                   </div> 
+        
+            <a href="#" onclick="playVideo(1003)"><b>Enharmonic Equivalents</b></a>  
+           <a href="#" onclick="w3_displayNav('v1004')"><b>Intervals </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1004" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1004)">Video</a>
+                            <a href="#" onclick="startQuiz(1004)">Quiz</a>
+                       </div>
+                   </div>
+          <a href="#" onclick="w3_displayNav('v1005')"><b>Augmented and Diminished </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1005" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1005)">Video</a>
+                            <a href="#" onclick="startQuiz(1005)">Quiz</a>
+                       </div>
+                   </div>
+          <a href="#" onclick="w3_displayNav('v1006')"><b>Inversions </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1006" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1006)">Video</a>
+                            <a href="#" onclick="startQuiz(1006)">Quiz</a>
+                       </div>
+                   </div>           
+          <a href="#" onclick="w3_displayNav('v1007')"><b>Introduction to Chords </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1007" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1007)">Video</a>
+                            <a href="#" onclick="startQuiz(1007)">Quiz</a>
+                       </div>
+                   </div>          
+          <a href="#" onclick="w3_displayNav('v1008')"><b>Basic Triads </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1008" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1008)">Video</a>
+                            <a href="#" onclick="startQuiz(1008)">Quiz</a>
+                       </div>
+                   </div>          
+            <a href="#" onclick="w3_displayNav('v1009')"><b>Basic Tetrachords </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1009" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1009)">Video</a>
+                            <a href="#" onclick="startQuiz(1009)">Quiz</a>
+                       </div>
+                   </div>          
+          <a href="#" onclick="w3_displayNav('v1010')"><b>Introduction to Scales </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1010" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1010)">Video</a>
+                            <a href="#" onclick="startQuiz(1010)">Quiz</a>
+                       </div>
+                   </div>          
+          <a href="#" onclick="w3_displayNav('v1011')"><b>Modes </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1011" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1011)">Video</a>
+                            <a href="#" onclick="startQuiz(1011)">Quiz</a>
+                       </div>
+                   </div>          
+          <a href="#" onclick="w3_displayNav('v1012')"><b>Transposing Modes </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1011" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1012)">Video</a>
+                            <a href="#" onclick="startQuiz(1012)">Quiz</a>
+                       </div>
+                   </div>  
+        <a href="#" onclick="w3_displayNav('v1013')"><b>Circle of Fifths </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1013" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1013)">Video</a>
+                            <a href="#" onclick="startQuiz(1013)">Quiz</a>
+                       </div>
+                   </div>               
+        <a href="#" onclick="w3_displayNav('v1014')"><b>Circle of Fifths II </b><i class="fa fa-caret-down"></i></a>
+                   <div id="v1014" class= "w3-accordion-content">
+                       <div class="w3-container">
+                           <a href="#" onclick="playVideo(1014)">Video</a>
+                            <a href="#" onclick="startQuiz(1014)">Quiz</a>
+                       </div>
+                   </div>          
+           <a href="#" onclick="playVideo(1015)"><b>Geometry of Music</b></a>  
+           <a href="#" onclick="playVideo(1016)"><b>Random Chords, Scales, Tone Row</b></a>  
+           <a href="#" class="disabled" >&nbsp;</a> 
+        </div> 
+</nav>
+<!-- dropnav toggle -->
+<nav id="ExploreMenu" class="w3-dropnav w3-card-2 menu-grey w3-text-black" style="display:none" >
+    <div class="w3-container">
+        <span onclick="w3_close('ExploreMenu')" class="w3-closebtn x3-xlarge" title="Close Menu"> &times;</span>
+    </div>
+    <div class="w3-row-padding menu-listings">
+        <div class="w3-third">
+            <h2>Chords</h2>
+               <!-- insert generated learn menu content for CHORDS here-->
+
+<a href="#" onclick="w3_displayNav('Intervals')"><b>Intervals </b><i class="fa fa-caret-down"></i></a>      <div id="Intervals" class= "w3-accordion-content">           <div class="w3-container">               
+               <a href="#" onclick='explore(442)'> unison</a>
+               <a href="#" onclick='explore(100)'> minor 2nd</a>
+               <a href="#" onclick='explore(101)'> major 2nd</a>
+               <a href="#" onclick='explore(102)'> minor 3rd</a>
+               <a href="#" onclick='explore(103)'> major 3rd</a>
+               <a href="#" onclick='explore(104)'> perfect 4th</a>
+               <a href="#" onclick='explore(105)'> tritone</a>
+               <a href="#" onclick='explore(106)'> perfect 5th</a>
+               <a href="#" onclick='explore(107)'> minor 6th</a>
+               <a href="#" onclick='explore(108)'> major 6th</a>
+               <a href="#" onclick='explore(109)'> minor 7th</a>
+               <a href="#" onclick='explore(110)'> major 7th</a>
+               <a href="#" onclick='explore(433)'> octave</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Major')"><b>Major </b><i class="fa fa-caret-down"></i></a>      <div id="Major" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(111)'> major</a>
+               <a href="#" onclick='explore(293)'> major b5</a>
+               <a href="#" onclick='explore(297)'> maj6 (no 5th)</a>
+               <a href="#" onclick='explore(299)'> maj7 (no 5th)</a>
+               <a href="#" onclick='explore(117)'> maj6</a>
+               <a href="#" onclick='explore(119)'> maj7</a>
+               <a href="#" onclick='explore(126)'> maj7 b5</a>
+               <a href="#" onclick='explore(125)'> maj7 #5</a>
+               <a href="#" onclick='explore(137)'> maj6/9</a>
+               <a href="#" onclick='explore(133)'> maj9</a>
+               <a href="#" onclick='explore(135)'> maj7 (#11)</a>
+               <a href="#" onclick='explore(385)'> maj9 b5</a>
+               <a href="#" onclick='explore(387)'> maj9 #5</a>
+               <a href="#" onclick='explore(148)'> maj9 (#11)</a>
+               <a href="#" onclick='explore(421)'> maj7 #5 (9 #11)</a>
+               <a href="#" onclick='explore(452)'> maj7 (#9 #11 #13)</a>
+               <a href="#" onclick='explore(156)'> maj9 (#11 13)</a>
+            
+           <a href="#" onclick='explore(455)'>  maj7 (b9 #9 #11 #13)</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Minor')"><b>Minor </b><i class="fa fa-caret-down"></i></a>      <div id="Minor" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(112)'> minor</a>
+               <a href="#" onclick='explore(294)'> minor #5</a>
+               <a href="#" onclick='explore(295)'> min7 (no 5th)</a>
+               <a href="#" onclick='explore(296)'> min-maj7 (no 5th)</a>
+               <a href="#" onclick='explore(118)'> min6</a>
+               <a href="#" onclick='explore(323)'> minor b6</a>
+               <a href="#" onclick='explore(120)'> min7</a>
+               <a href="#" onclick='explore(122)'> min7 b5</a>
+               <a href="#" onclick='explore(377)'> min7 #5</a>
+               <a href="#" onclick='explore(124)'> min-maj7</a>
+               <a href="#" onclick='explore(319)'> min-maj7 b5</a>
+               <a href="#" onclick='explore(127)'> min-maj7 #5</a>
+               <a href="#" onclick='explore(136)'> min6/9</a>
+               <a href="#" onclick='explore(322)'> min7 (11)</a>
+               <a href="#" onclick='explore(320)'> min7 (#11)</a>
+               <a href="#" onclick='explore(367)'> min-maj7 (9)</a>
+               <a href="#" onclick='explore(365)'> min-maj7 (11)</a>
+               <a href="#" onclick='explore(134)'> min9</a>
+               <a href="#" onclick='explore(147)'> min9 b5</a>
+               <a href="#" onclick='explore(388)'> min9 #5</a>
+               <a href="#" onclick='explore(369)'> min-maj7 (9 11)</a>
+               <a href="#" onclick='explore(149)'> min9 (11)</a>
+               <a href="#" onclick='explore(370)'> min9 (#11)</a>
+               <a href="#" onclick='explore(441)'> min-maj7 (9 #11 13)</a>
+               <a href="#" onclick='explore(453)'> min-maj7 (b9 11 13)</a>
+               <a href="#" onclick='explore(158)'> min7 b5 (b9 11 b13)</a>
+               <a href="#" onclick='explore(451)'> min7 b5 (9 11 b13)</a>
+               <a href="#" onclick='explore(157)'> min9 (11 13)</a>
+    </div>  </div>       <a href="#" onclick="w3_displayNav('Dominant')"><b>Dominant </b><i class="fa fa-caret-down"></i></a>      <div id="Dominant" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(121)'> 7</a>
+               <a href="#" onclick='explore(298)'> 7 (no 5th)</a>
+               <a href="#" onclick='explore(123)'> 7 b5</a>
+               <a href="#" onclick='explore(300)'> 7sus4 (no 5th)</a>
+               <a href="#" onclick='explore(131)'> 7sus2</a>
+               <a href="#" onclick='explore(130)'> 7sus4</a>
+               <a href="#" onclick='explore(140)'> 7 (#9)</a>
+               <a href="#" onclick='explore(141)'> 7 (b9)</a>
+               <a href="#" onclick='explore(145)'> 7 (13)</a>
+               <a href="#" onclick='explore(146)'> 7 (b13)</a>
+               <a href="#" onclick='explore(143)'> 7 b5 (#9)</a>
+               <a href="#" onclick='explore(142)'> 7 b5 (b9)</a>
+               <a href="#" onclick='explore(138)'> 9</a>
+               <a href="#" onclick='explore(380)'> 9 b5</a>
+               <a href="#" onclick='explore(139)'> 9sus4</a>
+               <a href="#" onclick='explore(150)'> 7 (b9 #9)</a>
+               <a href="#" onclick='explore(151)'> 7 (b9 #11)</a>
+               <a href="#" onclick='explore(152)'> 7 (#9 #11)</a>
+               <a href="#" onclick='explore(390)'> 7 b5 (9 13)</a>
+               <a href="#" onclick='explore(391)'> 7 b5 (b9 b13)</a>
+               <a href="#" onclick='explore(422)'> 7 (#9 13)</a>
+               <a href="#" onclick='explore(432)'> 7 (#9 b13)</a>
+               <a href="#" onclick='explore(359)'> 9 (#11)</a>
+               <a href="#" onclick='explore(155)'> 9 (13)</a>
+               <a href="#" onclick='explore(154)'> 9 (b13)</a>
+               <a href="#" onclick='explore(378)'> 7 (#9 #11 13)</a>
+               <a href="#" onclick='explore(159)'> 7 (b9 #9 13)</a>
+               <a href="#" onclick='explore(160)'> 7 (b9 #9 b13)</a>
+               <a href="#" onclick='explore(389)'> 7 (b9 #9 #11)</a>
+               <a href="#" onclick='explore(162)'> 7 b5 (b9 #9 b13)</a>
+               <a href="#" onclick='explore(161)'> 9 (#11 13)</a>
+               <a href="#" onclick='explore(163)'> 7 (b9 #9 #11 13)</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Diminished')"><b>Diminished </b><i class="fa fa-caret-down"></i></a>      <div id="Diminished" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(292)'> diminished</a>
+               <a href="#" onclick='explore(379)'> diminished 7th (no 5th)</a>
+               <a href="#" onclick='explore(129)'> dim7</a>
+               <a href="#" onclick='explore(164)'> double dim7</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Augmented')"><b>Augmented </b><i class="fa fa-caret-down"></i></a>      <div id="Augmented" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(113)'> augmented</a>
+               <a href="#" onclick='explore(128)'> aug7</a>
+               <a href="#" onclick='explore(392)'> aug9</a>
+               <a href="#" onclick='explore(393)'> aug7 (b9)</a>
+               <a href="#" onclick='explore(144)'> aug7 (#9)</a>
+               <a href="#" onclick='explore(153)'> aug9 (#11)</a>
+               <a href="#" onclick='explore(394)'> aug7 (b9 #9)</a>
+               <a href="#" onclick='explore(399)'> double augmented</a>
+               <a href="#" onclick='explore(400)'> double augmented</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Suspended')"><b>Suspended </b><i class="fa fa-caret-down"></i></a>      <div id="Suspended" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(115)'> sus2</a>
+               <a href="#" onclick='explore(116)'> sus4</a>
+               <a href="#" onclick='explore(301)'> sus4-maj7 triad</a>
+               <a href="#" onclick='explore(132)'> sus4-maj7</a>
+               <a href="#" onclick='explore(395)'> sus4-maj9</a>
+
+               <!--  end generated learn menu content for CHORDS-->
+            </div>
+        </div>
+                <a href="#" onclick="explore('randomChord')" ><b>Random Chord</b></a>
+                <a href="#" class="disabled" >&nbsp;</a> 
+</div>
+        <div class="w3-third">
+            <h2>Scales</h2>
+                 <!-- insert generated learn menu content for SCALES here-->
+                
+  <a href="#" onclick="w3_displayNav('Greek Modes')"><b>Greek Modes </b><i class="fa fa-caret-down"></i></a>      <div id="Greek Modes" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(165)'> Ionian</a>
+               <a href="#" onclick='explore(166)'> Dorian</a>
+               <a href="#" onclick='explore(167)'> Phrygian</a>
+               <a href="#" onclick='explore(168)'> Lydian</a>
+               <a href="#" onclick='explore(169)'> Mixolydian</a>
+               <a href="#" onclick='explore(170)'> Aeolian</a>
+               <a href="#" onclick='explore(171)'> Locrian</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Harmonic Modes')"><b>Harmonic Modes </b><i class="fa fa-caret-down"></i></a>      <div id="Harmonic Modes" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(172)'> Alpha</a>
+               <a href="#" onclick='explore(173)'> Beta</a>
+               <a href="#" onclick='explore(174)'> Gamma</a>
+               <a href="#" onclick='explore(175)'> Delta (or Melodic Minor)</a>
+               <a href="#" onclick='explore(176)'> Kappa</a>
+               <a href="#" onclick='explore(177)'> Sigma</a>
+               <a href="#" onclick='explore(178)'> Tau (or Lydian b7)</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Celestial Modes')"><b>Celestial Modes </b><i class="fa fa-caret-down"></i></a>      <div id="Celestial Modes" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(179)'> Solarian</a>
+               <a href="#" onclick='explore(180)'> Mercurian</a>
+               <a href="#" onclick='explore(181)'> Venusian</a>
+               <a href="#" onclick='explore(182)'> Lunarian</a>
+               <a href="#" onclick='explore(183)'> Martisian</a>
+               <a href="#" onclick='explore(184)'> Jovian</a>
+               <a href="#" onclick='explore(185)'> Saturnian</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Arabian Modes')"><b>Arabian Modes </b><i class="fa fa-caret-down"></i></a>      <div id="Arabian Modes" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(186)'> Arabian</a>
+               <a href="#" onclick='explore(187)'> Egyptian</a>
+               <a href="#" onclick='explore(188)'> Libyan</a>
+               <a href="#" onclick='explore(189)'> Algerian</a>
+               <a href="#" onclick='explore(190)'> Moroccan</a>
+               <a href="#" onclick='explore(191)'> Syrian</a>
+               <a href="#" onclick='explore(192)'> Tunisian</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Pentatonic')"><b>Pentatonic </b><i class="fa fa-caret-down"></i></a>      <div id="Pentatonic" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(193)'> Major Pentatonic</a>
+               <a href="#" onclick='explore(402)'> Suspended Pentatonic</a>
+               <a href="#" onclick='explore(195)'> Blues Minor Pentatonic</a>
+               <a href="#" onclick='explore(314)'> Blues Major Pentatonic</a>
+               <a href="#" onclick='explore(194)'> Minor Pentatonic</a>
+               <a href="#" onclick='explore(404)'> Major Blues Pentatonic</a>
+               <a href="#" onclick='explore(321)'> Minor Blues Pentatonic</a>
+               <a href="#" onclick='explore(238)'> Harmonic Minor Pentatonic</a>
+               <a href="#" onclick='explore(337)'> Major 9th Pentatonic</a>
+               <a href="#" onclick='explore(345)'> Minor 9th Pentatonic</a>
+               <a href="#" onclick='explore(227)'> Japanese Pentatonic</a>
+               <a href="#" onclick='explore(407)'> Harmonic (Mode I)</a>
+               <a href="#" onclick='explore(408)'> Harmonic (Mode II)</a>
+               <a href="#" onclick='explore(409)'> Harmonic (Mode III)</a>
+               <a href="#" onclick='explore(410)'> Harmonic (Mode IV)</a>
+               <a href="#" onclick='explore(411)'> Harmonic (Mode V)</a>
+               <a href="#" onclick='explore(412)'> Celestial (Mode I)</a>
+               <a href="#" onclick='explore(413)'> Celestial (Mode II)</a>
+               <a href="#" onclick='explore(414)'> Celestial (Mode III)</a>
+               <a href="#" onclick='explore(415)'> Celestial (Mode IV)</a>
+               <a href="#" onclick='explore(416)'> Celestial (Mode V)</a>
+               <a href="#" onclick='explore(403)'> Arabian  (Mode I)</a>
+               <a href="#" onclick='explore(417)'> Arabian (Mode II)</a>
+               <a href="#" onclick='explore(418)'> Arabian (Mode III)</a>
+               <a href="#" onclick='explore(419)'> Arabian (Mode IV)</a>
+               <a href="#" onclick='explore(420)'> Arabian (Mode V)</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Hexatonic')"><b>Hexatonic </b><i class="fa fa-caret-down"></i></a>      <div id="Hexatonic" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(197)'> Whole Tone</a>
+               <a href="#" onclick='explore(198)'> Minor Half Step</a>
+               <a href="#" onclick='explore(285)'> Half Step Minor</a>
+               <a href="#" onclick='explore(202)'> Minor Blues Hexatonic</a>
+               <a href="#" onclick='explore(212)'> Major Blues Hexatonic</a>
+               <a href="#" onclick='explore(242)'> Minor Hexatonic</a>
+               <a href="#" onclick='explore(245)'> Ionian Hexatonic</a>
+               <a href="#" onclick='explore(406)'> Dorian Hexatonic</a>
+               <a href="#" onclick='explore(347)'> Phrygian Hexatonic</a>
+               <a href="#" onclick='explore(232)'> Lydian Hexatonic</a>
+               <a href="#" onclick='explore(332)'> Mixolydian Hexatonic</a>
+               <a href="#" onclick='explore(251)'> Aeolian Hexatonic</a>
+               <a href="#" onclick='explore(405)'> Locrian Hexatonic</a>
+               <a href="#" onclick='explore(252)'> Dominant Hexatonic</a>
+               <a href="#" onclick='explore(350)'> Harmonic Hexatonic</a>
+               <a href="#" onclick='explore(201)'> Prometheus Hexatonic</a>
+               <a href="#" onclick='explore(241)'> Phrygian b6 Hexatonic</a>
+               <a href="#" onclick='explore(335)'> Lydian 6 Hexatonic </a>
+               <a href="#" onclick='explore(255)'> Lydian b7 Hexatonic</a>
+               <a href="#" onclick='explore(444)'> Satie Hexatonic</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Heptatonic')"><b>Heptatonic </b><i class="fa fa-caret-down"></i></a>      <div id="Heptatonic" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(224)'> Harmonic Major</a>
+               <a href="#" onclick='explore(204)'> Harmonic Minor</a>
+               <a href="#" onclick='explore(398)'> Diminished Heptatonic</a>
+               <a href="#" onclick='explore(223)'> Mixolydian Augmented</a>
+               <a href="#" onclick='explore(203)'> Blues Mode</a>
+               <a href="#" onclick='explore(221)'> Enigmatic </a>
+               <a href="#" onclick='explore(216)'> Neapolitan Minor</a>
+               <a href="#" onclick='explore(219)'> Spanish</a>
+               <a href="#" onclick='explore(225)'> Hungarian Major</a>
+               <a href="#" onclick='explore(222)'> Romanian</a>
+               <a href="#" onclick='explore(220)'> Marwa</a>
+               <a href="#" onclick='explore(218)'> Persian</a>
+               <a href="#" onclick='explore(217)'> Todi</a>
+               <a href="#" onclick='explore(215)'> Indian</a>
+ </div>  </div>       <a href="#" onclick="w3_displayNav('Octatonic')"><b>Octatonic </b><i class="fa fa-caret-down"></i></a>      <div id="Octatonic" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(210)'> WS/HS Diminished</a>
+               <a href="#" onclick='explore(211)'> HS/WS Diminished</a>
+               <a href="#" onclick='explore(446)'> Dominant Diminished (Mode I)</a>
+               <a href="#" onclick='explore(449)'> Dominant Diminished (Mode II)</a>
+               <a href="#" onclick='explore(447)'> Dominant Diminished (Mode III)</a>
+               <a href="#" onclick='explore(450)'> Dominant Diminished (Mode IV)</a>
+               <a href="#" onclick='explore(454)'> Major Minor scale</a>
+               <a href="#" onclick='explore(247)'> Lydian Octatonic</a>
+               <a href="#" onclick='explore(214)'> Flamenco</a>
+               <a href="#" onclick='explore(206)'> Major Bebop</a>
+               <a href="#" onclick='explore(207)'> Minor Bebop</a>
+               <a href="#" onclick='explore(205)'> Dominant Bebop</a>
+               <a href="#" onclick='explore(230)'> Dominant Bebop b9</a>
+               <a href="#" onclick='explore(209)'> Harmonic Minor Bebop</a>
+               <a href="#" onclick='explore(208)'> Melodic Minor Bebop</a>
+ </div>  </div>       
+            <a href="#" onclick="w3_displayNav('Nonatonic')"><b>Nonatonic </b><i class="fa fa-caret-down"></i></a>   <div id="Nonatonic" class= "w3-accordion-content">           
+            <div class="w3-container">               
+               <a href="#" onclick='explore(325)'> One-Two Nonatonic</a>
+               <a href="#" onclick='explore(324)'> Two-One Nonatonic</a>
+               <a href="#" onclick='explore(326)'> One-Three Nonatonic</a>
+               <a href="#" onclick='explore(327)'> Root-Symmetrical Nonatonic</a>
+               <a href="#" onclick='explore(328)'> Blues Nonatonic</a>
+ </div>  </div>       
+                
+                <a href="#" onclick="w3_displayNav('Decatonic')"><b>Decatonic </b><i class="fa fa-caret-down"></i></a>      <div id="Decatonic" class= "w3-accordion-content">           <div class="w3-container">               <a href="#" onclick='explore(330)'> One-Four Decatonic</a>
+               <a href="#" onclick='explore(329)'> Four-One Decatonic</a>
+                
+                <!--  end generated learn menu content for SCALES-->
+                </div></div>
+                <a href="#" onclick="explore(331)" ><b>Hendecatonic </b></a>
+                <a href="#" onclick="explore(213)" ><b>Chromatic</b></a>
+                <a href="#" onclick="explore('randomScale')" ><b>Random Scale</b></a>
+                <a href="#" class="disabled" >&nbsp;</a> 
+
+                <!--  Hendecatonic and Chromatic are not generated because they have only 1 item each!-->
+        </div>
+        <div class="w3-third">
+            <h2>Sequences </h2>
+                
+                <!-- insert generated learn menu content for SEQUENCES here -->
+                
+            <a href="#" onclick="w3_displayNav('Chromatic')"><b>Chromatic Scale </b><i class="fa fa-caret-down"></i></a>   <div id="Chromatic" class= "w3-accordion-content">           
+            <div class="w3-container">
+                <a href="#" onclick='explore(434)'>Ascending</a>
+                <a href="#" onclick='explore(435)'>Descending</a>
+            </div></div>
+                
+            <a href="#" onclick="w3_displayNav('Fifths')"><b>Circle of Fifths </b><i class="fa fa-caret-down"></i></a>   <div id="Fifths" class= "w3-accordion-content">           
+            <div class="w3-container">
+                <a href="#" onclick='explore(436)'>Ascending</a>
+                <a href="#" onclick='explore(437)'>Descending</a>
+            </div></div>
+       
+            <a href="#" onclick="w3_displayNav('All Intervals')"><b>All Intervals </b><i class="fa fa-caret-down"></i></a>   <div id="All Intervals" class= "w3-accordion-content">           
+            <div class="w3-container">
+                <a href="#" onclick='explore(438)'>Ascending</a>
+                <a href="#" onclick='explore(439)'>Descending</a>
+            </div></div>
+            <a href="#" onclick="w3_displayNav('Tensions')"><b>Tensions </b><i class="fa fa-caret-down"></i></a>   <div id="Tensions" class= "w3-accordion-content">           
+            <div class="w3-container">
+                <a href="#" onclick='explore(440)'>Ascending</a>
+                <a href="#" onclick='explore(448)'>Descending</a>
+            </div></div>
+
+                 <!--  end generated learn menu content for SEQUENCES -->
+              <a href="#" onclick="explore('ToneRows')"><b>Random Tone Row</b></a>  
+              <!--      <a href="#" class="disabled">Diatonic Chords</a> --> 
+            <a href="#" class="disabled" >&nbsp;</a> 
+        </div>
+    </div>
+    </nav>
+<!-- end navbar -->
+    
+<!--  start Canvas & Vexflow containers (nested rows with w3-half to split)  -->
+    <div class="w3-row w3-padding-0">
+      <!--  column 1  -->
+        <div class="w3-container w3-black w3-padding-0">            
+            <div class="w3-half w3-container w3-padding-0 w3-black">
+                <canvas id="hpCanvas" height = "900px" width="900px" onclick="mouseClicked(event)"> Your browser does not support the HTML5 canvas tag. </canvas>
+            </div> 
+
+              <!--  column 2  -->
+            <div class="w3-row w3-padding-0">
+              
+               <!--   vexflow   -->
+                <div  id="vexflow" class="w3-half w3-container">
+
+                     <!--    quiz    -->
+                <div id="quiz">
+                    <h1 id="quizTitle"></h1> 
+                    <hr>
+                    <h2 id="quizAnswer"></h2> 
+
+                    <div id="quizAsk">
+                        <h2 id="quizQuestion"></h2>
+                        <hr>
+                    </div>
+                    <div id="quizButtons">
+                        <input type="submit" id="quizClick" value="Submit" onclick="checkAnswer()">
+                        <span id="quizCount"></span>
+                        <input type="submit" id="quizExit" value="Exit" onclick="reload()">
+                    </div>
+                    <h2 class="clearfix"> </h2>
+                    <hr>
+                </div>                
+               <!--    END quiz    -->                     
+                <!--   vexflow continued  -->
+                <div id="name" > </div>
+                <div id="notation"></div>
+                <div id ="description"> </div>
+
+                <div id="name2" > </div>
+                <div id="notation2"></div>
+                <div id ="description2"> </div>
+
+                <div id="name1" > </div>
+                <div id="notation1"></div>
+                <div id ="description1"> </div>
+
+                <div id="notation3"></div>
+                
+                 <!--   startup page  -->
+                <div id="startup">
+                    <div id="media">
+                      <img class="slideShow" src="images/slides/1.rockguitar.jpg">
+                      <img class="slideShow" src="images/slides/2.keyboard.jpg">
+                      <img class="slideShow" src="images/slides/3.bass.jpg">
+                      <img class="slideShow" src="images/slides/4.drums.jpg">
+                      <img class="slideShow" src="images/slides/5.saxes.jpg">
+                      <img class="slideShow" src="images/slides/6.jazzguitar.jpg">
+                      <img class="slideShow" src="images/slides/7.violins.jpg" >
+                        </div>
+                    <div id="slideCaption" class="w3-container"> </div>
+              
+                    <div class="w3-half h-container-left">
+                        <div class="h-video">
+                           <!--  INTRO -->
+                            <iframe src="https://www.youtube.com/embed/rWmZq-XwtO8" frameborder="0" allowfullscreen>Your browser does not support the HTML5 iframe tag</iframe>
+                          
+                        </div>
+                    </div>
+           
+                     <div class="w3-half h-container-right">
+                            <div class="h-video">
+                            <!--  PROMO -->
+                            <iframe src="https://www.youtube.com/embed/ofEOS-WSSP0?ecver=1" frameborder="0" allowfullscreen>Your browser does not support the HTML5 iframe tag</iframe>
+                        </div>
+                    </div>
+                    <div class="h-container">
+                        <h3>The Harmonagon™ is a web app that uses simple geometric shapes to teach music to anyone, anywhere, for free.</h3>
+                        <h3>Don’t know where to begin? Try a <a href="#" onclick="explore('randomChord')" >Random Chord</a>, <a href="#" onclick="explore('randomScale')" >Random Scale</a>, or <a href="#" onclick="explore('ToneRows')">Tone Row</a>.</h3>
+                    </div>    
+                </div>
+                <!--   END startup page  -->
+                </div>
+                <!--   END vexflow  -->
+            </div>
+            <!-- END of right-hand side -->
+        </div>
+    </div>        
+    
+<!-- end Canvas & Vexflow containers (nested rows)  -->
+  <div  class="w3-text-white">
+<footer>Harmonagon<super>&trade;</super> &copy; 2016, 2017 Radical Data and Media LLC. All Rights Reserved.</footer>
+      </div>
+<!--  start modal tabs for DISCOVER menu  -->
+    
+    <div id="Info" class="w3-modal">
+        <div class="w3-modal-content w3-light-grey w3-card-4 w3-animate-zoom">
+            <header class="w3-container w3-text-white navbar-grey h-discover-header">
+                <span onclick="document.getElementById('Info').style.display='none'" class="w3-closebtn w3-padding-top"> &times;</span>
+                <h2>The Harmonagon Project</h2>
+            
+        
+            <ul class="w3-pagination navbar-grey" style="width: 100%;">
+                
+                 <li><button class="tablink h-hover-red w3-btn navbar-grey" onclick="openInfo('Quick')">Quick Start Guide</button></li>
+                <li><button class="tablink h-hover-orange w3-btn navbar-grey" onclick="openInfo('Faq')">FAQ</button></li>
+                <li><button class="tablink h-hover-yellow w3-btn navbar-grey" onclick="openInfo('About')">About</button></li>
+                <li><button class="tablink h-hover-green w3-btn navbar-grey" onclick="openInfo('Agreement')">License Agreement</button></li>
+            </ul> 
+            </header>
+            <div id="Quick" class="w3-container w3-padding-bottom discover" style="display: block;">
+                <h2>Quick Start Guide</h2>
+                <p><b>Audio:</b> Before using the Harmonagon, please adjust the volume on your device.</p>
+
+                <p><b>Full Screen:</b> A large display monitor and browser in full screen mode are recommended for optimum user experience. Choose <i>Enter Full Screen</i> from the View menu or use the keyboard shortcuts for Windows (F11) or Mac OS (Command + Control + F).</p>
+
+                <p><b>Making music is as easy as 1-2-3… </b></p>
+                <ol>
+                    <li>Click or tap the <i>Make Chord</i> or <i>Make Scale</i> button on the center console.</li>
+                    <li>Click or tap to select one or more notes, from 0 through 11, on the circle.</li>
+                    <li>Click or tap the <i>Enter</i> button to see and hear the interval, chord, or scale you’ve created.</li>
+                </ol>
+                <p><b>Tip:</b> When making chords, limit the number of notes you select from 2 to 4, or for chords with tensions, 5 or more. When making scales, select from 5 to 7 notes, or more for longer scales. And always try to enclose the center of the Harmonagon within the shapes you create. When shapes do not encompass or at least intersect with the Harmonagon center point, the chord or scale produced will in most cases return “undefined.”</p>
+                <p><b>Show/Hide:</b> Click or tap the center of the Harmonagon to display or hide the center button console.</p>
+                <p><b>Clear:</b> Click or tap the <i>Clear</i> button to reset the Harmonagon to the default state.</p>
+                <p><b>Play:</b> Click or tap the <i>Play</i> button to play any interval, chord, or scale that is displayed.</p>
+                <p><b>Loop:</b> Click or tap the <i>Loop</i> button to play along or practice with intervals, arpeggios, chords, and scales. Click or tap the middle of the screen or press the spacebar to stop the loop.</p>
+                <p><b>Change Tempo:</b> Select <i>Tempo</i> from the <i>Change</i> menu and choose from 30 to 240 beats per minute (bpm). The default is 120 bpm.</p>
+                <p><b>Add Chord:</b> With one interval or chord created, click or tap the <i>Add Chord</i> button to create a second interval or chord. </p>
+                <p><b>Swap Chords:</b> With two intervals or chords created, click or tap the <i>Swap Chords</i> button to switch between chords.</p>
+                <p><b>Loop Chords:</b> With two intervals or chords created, click or tap the <i>Loop Chords</i> button to loop a sequence of the two chords. Click or tap the middle of the screen to cancel and stop playing the loop.</p>
+                <p><b>Merge:</b> With two intervals or chords created, click or tap the <i>Merge</i> button to combine the chords into a matching scale. Click or tap <i>Undo Merge</i> to restore the two chords.</p>
+                <p><b>Learn:</b> Choose any Chord, Scale, or Sequence from the <i>Learn</i> menu to instantly see and hear the selection presented and played on the Harmonagon.</p>
+                <p><b>Watch:</b> <a href="https://youtu.be/rWmZq-XwtO8" target="_blank"> Introduction to the Harmonagon</a> 4-minute video.</p>
+                <p><b>IMPORTANT:</b> The Harmonagon is updated frequently with new and improved features, so select <i>Reload</i> on the menu each time you visit to assure you are using the most current version. </p>
+                <p><b>System Requirements:</b> The Harmonagon runs client-side on desktop or laptop computers, tablets or smart phones with a modern web browser, such as Chrome, Safari, Firefox, or Explorer, and an Internet/Wi-Fi connection or cell signal.</p>
+
+                <p>By using the Harmonagon app, you acknowledge having read and accepted the <a href="#" onclick="openInfo('Agreement')">End-User License Agreement</a>.</p>
+            </div>
+            <div id="Faq" class="w3-container w3-padding-bottom discover">
+                <h2>Frequently Asked Questions</h2>
+                <div onclick="w3_displayNav('faq1')" class="w3-container h-hover-grey"><i class="fa fa-caret-down"></i><b> How do I use the Harmonagon?</b></div>
+                <div id="faq1" class="w3-container w3-hide">
+                    <p>It’s as easy as 1-2-3.</p>
+                    <ol>
+                    <li>Click or tap the <i>Make Chord</i> or <i>Make Scale</i> button on the center console.</li>
+                    <li>Click or tap to select one or more notes, from 0 through 11, on the circle.</li>
+                    <li>Click or tap the <i>Enter</i> button to see and hear the interval, chord, or scale you’ve created.</li>
+                    </ol>
+                    <p>Please read the <a href="#" onclick="openInfo('Quick')">Quick Start Guide</a> for an overview of app features.</p>
+                </div>
+                <div onclick="w3_displayNav('faq2')" class="w3-container h-hover-grey"><i class="fa fa-caret-down"></i><b> Are there any tutorial videos for the Harmonagon?</b></div>
+                <div id="faq2" class="w3-container w3-hide">
+
+                    <p>Yes. The Harmonagon includes a program of videos and quizzes for self-paced learning. Our series of free music theory lessons includes an <a href="#" onclick="playVideo('Intro to the Harmonagon', 'https://www.youtube.com/embed/rWmZq-XwtO8', 0, 'https://www.youtube.com/embed/ob1CdGbHpeA', 'Using the Harmonagon')">introductory video</a>, an <a href="#" onclick="playVideo('Using the Harmonagon', 'https://www.youtube.com/embed/ob1CdGbHpeA', 0, 'https://www.youtube.com/embed/snkXAY3VbWg', 'Notes and Steps')">overview of the app's features</a>, a <a href="#" onclick="playVideo('Notes and Steps', 'https://www.youtube.com/embed/snkXAY3VbWg', 1, 'https://www.youtube.com/embed/U8TUH1FNIRw', 'Intervals')">Notes and Steps video</a> and then a <a href="#" onclick="startQuiz()">quiz,</a> with more quizzes and videos coming soon.</p>
+                    
+                    <p>Subscribe to our <a href="https://www.youtube.com/channel/UC_f3nR0uGJ1VuBx9SgFG3zQ" target="_blank">YouTube channel</a> and follow us on <a href="https://www.facebook.com/harmonagon/" target="_blank">Facebook</a> and <a href="https://twitter.com/harmonagon" target="_blank">Twitter</a> for notification of new videos, quizzes, and program features.</p>
+                </div>
+                <div onclick="w3_displayNav('faq4')" class="w3-container h-hover-grey"><i class="fa fa-caret-down"></i><b> What new features are planned for the Harmonagon?</b></div>
+                <div id="faq4" class="w3-container w3-hide">
+       
+                    <p>There are many features in development, including:</p>
+                    <ul>
+                    <li>Cross-Referencing of Chords and Scales,</li>
+                    <li>Change Key or Tonic,</li>
+                    <li>Invert or Change Register,</li>
+                    <li>Transpose Chords and Scales,</li>
+                    <li>Transform Chords and Scales,</li>
+                    <li>Change Scale Mode,</li>
+                    <li>Change Chord Root or Use Alternate Bass,</li>
+                    <li>Change Instrument Sound,</li>
+                    <li>Make and Save Sequences and Chord Progressions,</li>
+                    <li>Metronome and Tuner,</li>
+                    <li>Rhythm Mode,</li>
+                    <li>Education Levels for Preschool and Elementary Students,</li>
+                    <li>and more.</li>
+                    </ul>
+                    
+                    <p> The Harmonagon is updated often with new and improved functions so select <i>Reload</i> from the menu to refresh your browser each time you visit to assure that you are using the most recent release. Follow us on <a href="https://www.facebook.com/harmonagon/" target="_blank">Facebook</a> or <a href="https://twitter.com/harmonagon" target="_blank"> Twitter</a> and check the Harmonagon Project's <a href="https://www.youtube.com/channel/UC_f3nR0uGJ1VuBx9SgFG3zQ" target="_blank">YouTube Channel</a>.</p>
+                    
+                </div>
+                <div onclick="w3_displayNav('faq5')" class="w3-container h-hover-grey"><i class="fa fa-caret-down"></i><b> How can I help support The Harmonagon Project?</b></div>
+                <div id="faq5" class="w3-container w3-hide">
+                    
+                    <p><b>Thank you!</b> Please promote The Harmonagon Project, our free app and programmed learning, on social media.</p>
+                    
+                          <p class="h-indent"><a href="https://www.facebook.com/harmonagon/" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;<a href="https://www.facebook.com/harmonagon/" target="_blank"><b>Facebook</b></a><br>
+                        <a href="https://www.youtube.com/channel/UC_f3nR0uGJ1VuBx9SgFG3zQ" target="_blank"><i class="fa fa-youtube-square fa-2x"></i></a>&nbsp;<a href="https://www.youtube.com/channel/UC_f3nR0uGJ1VuBx9SgFG3zQ" target="_blank"><b>YouTube</b></a><br>
+                        <a href="https://twitter.com/harmonagon" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>&nbsp;<a href="https://twitter.com/harmonagon" target="_blank"><b>Twitter</b></a></p>
+                    
+                </div>
+                <div onclick="w3_displayNav('faq6')" class="w3-container h-hover-grey"><i class="fa fa-caret-down"></i><b> Where can I report an error or mistake, or suggest an idea?</b></div>
+                <div id="faq6" class="w3-container w3-hide">
+                    <p>Please message us on <a href="https://www.facebook.com/harmonagon/" target="_blank">Facebook</a> or <a href="https://twitter.com/harmonagon" target="_blank"> Twitter</a> or send an <a href="mailto:info@harmonagon.org">email</a> with any corrections or ideas with the respect to the Harmonagon. We appreciate your feedback and suggestions.</p>
+                </div>
+                <div onclick="w3_displayNav('faq7')" class="w3-container h-hover-grey"><i class="fa fa-caret-down"></i><b> Why Harmonagon?</b></div>
+                <div id="faq7" class="w3-container w3-hide">
+                    <p>The Harmonagon™ tradename is an amalgam of the words <i>harmony</i> and <i>polygon</i>.</p>
+                </div>
+                <div onclick="w3_displayNav('faq8')" class="w3-container w3-padding-bottom h-hover-grey"><i class="fa fa-caret-down"></i><b> The Harmonagon is not working properly, what should I do?</b></div>
+                <div id="faq8" class="w3-container w3-hide">
+                    <p>If you have a poor cell signal or slow Wi-Fi/Internet connection, it may take a few seconds for the Harmonagon app and sound files to completely load.</p>
+
+                    <p>The Harmonagon is updated frequently with new features and improvements, so so select <i>Reload</i> from the menu to refresh your browser each time you visit to ensure that you are using the most current and up-to-date version of the app.</p>
+
+                    <p><i>To reload and bypass your browser’s cache:</i> <b>Chrome, Firefox, and Explorer</b> users hold the <i>Shift</i> key when clicking <i>Reload</i> to force reload the page; or use the keyboard shortcut: Command + Shift + R; <b>Safari</b> users hold the <i>Command</i> key and click the <i>Reload</i> button. <b>Chrome</b> users still experiencing problems should select <i>Clear Browsing Data…</i> from the Chrome menu and clear <i>Cached images and files</i> and <i>Hosted app data.</i></p><p><i>Hint:</i> Click the app icon left of the <i>Create</i> menu or <i>Reload</i> to refresh the page.</p>
+                </div>
+            </div>
+            <div id="About" class="w3-container w3-padding-bottom discover">
+                <h2>About The Harmonagon</h2>
+                
+                <p>The Harmonagon™ is a new web app that uses simple geometric shapes to teach music to anyone, anywhere, for free.</p>
+
+                <p>The app is primarily designed as a learning and practice tool for music students and musicians, but anyone can use it, including beginners and those without an instrument.</p>
+                
+                <p>For more information, check out the FAQ and watch our 3-minute <a href="https://youtu.be/ofEOS-WSSP0" target="_blank">promotional video.</a></p>
+                
+                <p>The Harmonagon is a work in progress and user feedback is greatly appreciated:</p>
+
+                <p class="h-indent"><a href="https://www.facebook.com/harmonagon/" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;<a href="https://www.facebook.com/harmonagon/" target="_blank"><b>Facebook</b></a><br>
+                <a href="https://www.youtube.com/channel/UC_f3nR0uGJ1VuBx9SgFG3zQ" target="_blank"><i class="fa fa-youtube-square fa-2x"></i></a>&nbsp;<a href="https://www.youtube.com/channel/UC_f3nR0uGJ1VuBx9SgFG3zQ" target="_blank"><b>YouTube</b></a><br>
+                <a href="https://twitter.com/harmonagon" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>&nbsp;<a href="https://twitter.com/harmonagon" target="_blank"><b>Twitter</b></a><br>
+                <a href="mailto:info@harmonagon.org"><i class="fa fa-envelope-square fa-2x"></i></a>&nbsp;<a href="mailto:info@harmonagon.org"><b>Email</b></a></p>
+
+                <address class="h-indent"><span class="w3-small">or via mail:</span><br>
+                Radical Data and Media LLC<br>
+                The Harmonagon Project<br>
+                6090 Ridgeview Drive<br>
+                Muskegon, MI 49441</address>
+                
+                <hr>
+                <h2>Acknowledgements</h2>
+                <p><b><a href="http://www.vexflow.com" target="_blank"> Vexflow</a> | <a href="https://github.com/mudcube/MIDI.js" target="_blank">MIDI.js</a> |  <a href="https://www.w3schools.com" target="_blank">W3Schools</a> | <a href="https://www.khanacademy.org" target="_blank">Khan Academy</a></b></p>
+                
+
+            </div>
+            <div id="Agreement" class="w3-container w3-padding-bottom discover">
+                <h2>End-User License Agreement</h2>
+                <p>The Harmonagon™ © 2016, 2017 Radical Data and Media LLC. All Rights Reserved.</p>
+                <p>The Harmonagon is a software application (“app”) that runs client-side on any compatible desktop or laptop computer, tablet or smart phone with a modern web browser, such as Google Chrome, Mac Safari, Firefox, and Internet Explorer, and an Internet/Wi-Fi connection or cell signal.</p>
+                <p>The Harmonagon app and website are located exclusively at http://harmonagon.com and http://harmonagon.org.</p>
+                <p>The Harmonagon app and website are created, designed, developed, programmed, published, and owned exclusively by the principals and partners of Radical Data and Media LLC (“Radical LLC”), 6090 Ridgeview Drive, Muskegon, MI 49441.</p>
+                <p><b>License.</b> This limited license grants you a revocable, non-exclusive, non-transferrable right to access the Harmonagon website and use the Harmonagon app on any compatible electronic device (i.e., desktop or laptop computer, tablet or smart phone) for personal, non-commercial purposes. Your right to use the Harmonagon app is subject to your full and complete acceptance of this End User License Agreement (EULA). If you do not agree to be fully and legally bound by this EULA, please refrain from using the Harmonagon app or accessing the Harmonagon website.</p>
+                <p><b>Terms and Restrictions on Use.</b> You shall only use the Harmonagon app and website in strict accordance with the terms of this EULA. You shall not use the Harmonagon app or any of Radical LLC’s copyrighted programming code and/or proprietary data offsite or in any way that is independent of the Harmonagon app, website and servers under the control of Radical LLC.</p>
+                <p>You may not copy, remove, decompile, reverse engineer, disassemble, redesign, modify, hack, adapt, improve, transform, or translate any of the copyrighted programming code and/or proprietary data associated with the Harmonagon app or website. You may not make, or cause to be made, any representative or derivative work of any kind with respect to the Harmonagon app, website, or any copyrighted programming code and/or proprietary data.</p>
+                <p><strong>You may not use the Harmonagon app or website for any commercial or professional purpose without the express written permission of Radical LLC.</strong> You may not charge or collect any fee, tuition, any other form of valuable compensation from any person or third-party for use of the Harmonagon app or website.  You may not use the Harmonagon app or website in conjunction with any business, company, organization, institution, school, government, or other legal entity.</p>
+                <p><strong>Music teachers, instructors, tutors, educators, institutions, organizations, and home schools</strong> seeking to use the Harmonagon app and website for commercial or professional purposes (such as for private music lessons, public or private elementary, secondary or high school, home school, private music school, conservatory, college, or university courses, labs, lessons, studies, or other educational activities) must contact Radical LLC to obtain a <b>Professional End User License Agreement (PEULA).</b></p>
+                <p>Other than sharing the link (URL) on social media or bookmarking the Harmonagon website, you may not otherwise copy, redirect, reconfigure, relocate, repurpose, or reproduce the Harmonagon app or website or any part of the copyrighted programming code and/or proprietary data. You may not represent, broadcast, or transmit depictions or images of the Harmonagon app or website, in whole or in part, within any device, machine, mechanism, instrument, product, toy, game, app, software, database, document, file, website, film, video, animation, still image, slide show, or any other presentation or media, public or private, without the express written permission of Radical LLC.</p>
+                <p><b>Infringement and Termination of End User License Agreement.</b> Radical LLC may, at its sole discretion, terminate this EULA and all your rights to use the Harmonagon app and website at any time and for any reason. Upon written notification from Radical LLC, you shall immediately cease and desist all use of the Harmonagon app, refrain from visiting the Harmonagon website, and delete, clear, and permanently destroy all programming code and proprietary data associated with the Harmonagon app and website, including clearing any code or data that may remain in your browser history or cache or that may be stored elsewhere on your device, hard drive, memory stick, cloud, or any other device, location, or method used to back up, archive, store, or otherwise save and preserving digital data.</p>
+                <p><b>Limitation of Warranty.</b> You acknowledge and agree that the Harmonagon app and website are provided “as is” and “as available” without warranty of any kind. You acknowledge and agree that there may be circumstances or times when the Harmonagon app and website are nonfunctioning or unavailable (for example due to network outages, server failure, termination of license, and/or other causes or reasons), thus your decision to use and/or rely upon the Harmonagon app and website are at your sole risk and responsibility.</p>
+                <p><b>Limitation of Liability.</b> Under no circumstances shall Radical LLC or any of its principals, partners, directors, managers, or employees be held liable for any direct, indirect, incidental, consequential, special, or exemplary damages due to your inability to access or use the Harmonagon app and website at any time or for any reason. Nor shall Radical LLC or any of its principals, partners, directors, managers, or employees be held liable for any unintended, improper, inappropriate, or illegal use of the Harmonagon app and/or website.</p>
+            </div>
+        </div>
+    </div>
+<!--  end modal tabs for DISCOVER menu  -->
+    
+<!--  start modal for VIDEO  -->
+    <div id="video" class="w3-modal">
+        <div id="videoContent" class="w3-modal-content w3-light-grey w3-card-4 w3-animate-zoom" style="display: block;">
+            <header class="w3-container w3-text-white navbar-grey h-discover-header">
+                <span onclick="closeVideo()" class="w3-closebtn x3-xlarge"> &times; </span>
+                    <h2 id="videoName"></h2>
+            </header>
+            <div class="h-video">
+             <iframe id="playVideo" frameborder="0" allowfullscreen>Your browser does not support the HTML5 iframe tag</iframe>
+           </div>
+             <header class="w3-container w3-text-white navbar-grey h-discover-header">
+                <span onclick="startQuiz()" class="w3-padding-top"> </span>
+                 <div id="videoButtons">
+                        <input type="submit" id="videoClick" value="Take the Quiz" onclick="closeVideo(1)">
+                        
+                        <input type="submit" id="videoExit" value="Exit" onclick="closeVideo(0)">
+                    </div>
+            </header>
+        </div>   
+    </div>
+<!--  end modal for VIDEO  -->
+    
+    
+</body>
+    <!-- My Javascript goes here-->
+    <script src="js/harmonagonM.js"></script>
+    <script src ="js/knowledgebase.js"></script>
+    <script src ="js/kbData.js"></script>
+    <script src ="js/kbVideo.js"></script>
+</html> 
